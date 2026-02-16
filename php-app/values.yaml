@@ -27,8 +27,8 @@ php:
     liveness:
       initialDelaySeconds: 30
       periodSeconds: 10
-  percistance:
-    enabled: false
+  persistence:
+    enabled: true
     claimName: "php-pvc"
     size: "5Gi"
     mountPath: "/var/www/html/uploads"
@@ -50,7 +50,7 @@ mysql:
     limits:
       cpu: "500m"
       memory: "512Mi"
-  persistance:
+  persistence:
     enabled: true
     claimName: "mysql-pvc"
     size: "5Gi"
