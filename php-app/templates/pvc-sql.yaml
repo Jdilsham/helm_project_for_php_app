@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-    name: {{ .Values.mysql.persistence.claimName }}
-    namespace: {{ .Values.namespace.name }}
-    labels:
-        {{- include "php-app.labels" . | nindent 6 }}
+  name: {{ .Values.mysql.persistence.claimName }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "php-app.labels" . | nindent 4 }}
 spec:
-    accessModes:
-        - ReadWriteOnce
-    resources:
-        requests:
-            storage: {{ .Values.mysql.persistence.size }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.mysql.persistence.size }}
 {{- end -}}

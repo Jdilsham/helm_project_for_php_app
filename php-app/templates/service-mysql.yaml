@@ -1,13 +1,13 @@
 aoiVersion: v1
 kind: Service
 metadata:
-    name: {{ .Values.mysql.service.name }}
-    namespace: {{ .Values.namespace.name }}
-    labels:
-        {{- include "php-app.labels" . | nindent 6 }}
+  name: {{ .Values.mysql.service.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "php-app.labels" . | nindent 4 }}
 spec:
-    selector:
-        app: mysql
-    ports:
-        - port: {{ .Values.mysql.service.port }}
-          targetPort: {{ .Values.mysql.service.targetPort }}
+  selector:
+    app: mysql
+  ports:
+    - port: {{ .Values.mysql.service.port }}
+    	targetPort: {{ .Values.mysql.service.targetPort }}
