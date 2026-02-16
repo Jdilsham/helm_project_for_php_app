@@ -1,15 +1,15 @@
-{{- if .Values.php.persistence.enabled -}}
+{{- if .Values.php.persistence.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-	name: {{ .Values.php.persistence.claimName }}
+  name: {{ .Values.php.persistence.claimName }}
   namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "php-app.labels" . | nindent 4 }}
 spec:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-				storage: {{ .Values.php.persistence.size }}
-{{- end -}}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.php.persistence.size }}
+{{- end }}

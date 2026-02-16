@@ -4,42 +4,43 @@ metadata:
   name: mysql
   namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "php-app.labels" . | nindent 6 }}
+    {{- include "php-app.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.mysql.replicaCount }}
   selector:
-  	matchLabels:
+    matchLabels:
       app: mysql
-    template:
-      metadata:
-        labels:
-          app: mysql
-          {{- include "php-app.labels" . | nindent 10 }}
-      spec:
-        containers:
-					- name: mysql
-						image: {{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}
-						ports:
-							- containerPort: {{ .Values.mysql.service.targetPort }}
-						envFrom:
-							- secretRef:
-								name: {{ .Values.secret.name }}
-						resources:
-							requests:
-								cpu: {{ .Values.mysql.resources.requests.cpu }}
-								memory: {{ .Values.mysql.resources.requests.memory }}
-							limits:
-								cpu: {{ .Values.mysql.resources.limits.cpu }}
-								memory: {{ .Values.mysql.resources.limits.memory }}
-						volumeMounts:
-							- name: mysql-storage
-								mountPath: /var/lib/mysql
-							- name: mysql-init
-								mountPath: /docker-entrypoint-initdb.d
-				volumes:
-					- name: mysql-storage
-						persistentVolumeClaim:
-							claimName: {{ .Values.mysql.persistence.claimName }}
-					- name: mysql-init
-						configMap:
-							name: mysql-init-scripts                    
+  template:
+    metadata:
+      labels:
+        app: mysql
+        {{- include "php-app.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: mysql
+          image: "{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}"
+          imagePullPolicy: {{ .Values.mysql.image.pullPolicy }}
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - secretRef:
+                name: {{ .Values.secret.name }}
+          resources:
+            requests:
+              cpu: {{ .Values.mysql.resources.requests.cpu | quote }}
+              memory: {{ .Values.mysql.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.mysql.resources.limits.cpu | quote }}
+              memory: {{ .Values.mysql.resources.limits.memory | quote }}
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql
+            - name: mysql-init
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.mysql.persistence.claimName }}
+        - name: mysql-init
+          configMap:
+            name: mysql-init
