@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
     name: app-config
     namespace: {{ .Values.namespace.name }}
-    labels:
-        app: {{ include "php-app.labels" . | nindent 8 }}
+    labels: 
+        {{- include "php-app.labels" . | nindent 6 }}
 data:
     APP_ENV: {{ .Values.config.appEnv }}
