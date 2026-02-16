@@ -1,0 +1,15 @@
+{{- if .Values.php.persistence.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: {{ .Values.php.persistence.claimName }}
+    namespace: {{ .Values.namespace.name }}
+    labels:
+        {{- include "php-app.labels" . | nindent 6 }}
+spec:
+    accessModes:
+        - ReadWriteOnce
+    resources:
+        requests:
+            storage: {{ .Values.php.persistence.size }}
+{{- end -}}
