@@ -10,17 +10,20 @@ php:
   image:
     repository: "janithad/php-app"
     tag: "latest"
-    pullPolicy: "always"
-  containerPort: 80
+    pullPolicy: "Always"  
+  service:
+    type: "ClusterIP"
+    port: 80
+    targetPort: 80
   resources: 
     limits:
-      cpu: "100m"
-      memory: "256Mi"
-    requests:
       cpu: "300m"
       memory: "256Mi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
   probes:
-    path: "/health.pp"
+    path: "/health.php"
     rediness:
       initialDelaySeconds: 10
       periodSeconds: 5

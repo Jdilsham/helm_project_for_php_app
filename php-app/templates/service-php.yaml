@@ -1,13 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.mysql.service.name }}
+  name: php-service
   namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "php-app.labels" . | nindent 4 }}
 spec:
   selector:
-    app: mysql
+    app: php
   ports:
-    - port: {{ .Values.mysql.service.port }}
-      targetPort: {{ .Values.mysql.service.targetPort }}
+    - port: 80
+      targetPort: {{ .Values.php.service.targetPort }}
+  type: ClusterIP

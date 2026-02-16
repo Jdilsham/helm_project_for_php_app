@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-app
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "php-app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.php.replicaCount }}
+  selector:
+    matchLabels:
+      app: php
+  template:
+    metadata:
+      labels:
+        app: php
+        {{- include "php-app.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: php
+          image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag }}"
+          imagePullPolicy: {{ .Values.php.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.php.service.targetPort }}
+
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: {{ .Values.secret.name }}
+
+          resources:
+            requests:
+              cpu: {{ .Values.php.resources.requests.cpu }}
+              memory: {{ .Values.php.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.php.resources.limits.cpu }}
+              memory: {{ .Values.php.resources.limits.memory }}
+
+          {{- if .Values.php.persistence.enabled }}
+          volumeMounts:
+            - name: php-storage
+              mountPath: {{ .Values.php.persistence.mountPath }}
+          {{- end }}
+
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.php.probes.path }}
+              port: {{ .Values.php.service.targetPort }}
+            initialDelaySeconds: {{ .Values.php.probes.rediness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.php.probes.rediness.periodSeconds }}
+
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.php.probes.path }}
+              port: {{ .Values.php.service.targetPort }}
+            initialDelaySeconds: {{ .Values.php.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.php.probes.liveness.periodSeconds }}
+
+      {{- if .Values.php.persistence.enabled }}
+      volumes:
+        - name: php-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.php.persistence.claimName }}
+      {{- end }}
