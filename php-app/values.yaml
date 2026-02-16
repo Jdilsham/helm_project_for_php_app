@@ -43,6 +43,7 @@ mysql:
   service:
     name: "mysql-service"
     port: 3306
+    targetPort: 3306
   resources:
     requests:
       cpu: "200m"
