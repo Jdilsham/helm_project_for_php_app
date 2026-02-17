@@ -12,27 +12,8 @@ It includes:
 
 ---
 
-## Chart Structure
-php-app/
-  Chart.yaml
-  values.yaml
-  templates/
-    _helpers.tpl
-    namespace.yaml
-    configmap-app.yaml
-    configmap-mysql-init.yaml
-    secret-db.yaml
-    pvc-php.yaml
-    pvc-mysql.yaml
-    service-php.yaml
-    service-mysql.yaml
-    deployment-php.yaml
-    deployment-mysql.yaml
-
----
-
 ## Prerequisites
-- Kubernetes cluster (tested on **Minikube**)
+- `Kubernetes cluster (tested on **Minikube**)`
 - `kubectl`
 - `helm`
 
@@ -46,10 +27,10 @@ Install the chart:
 
 Verify resources:
 
-```kubectl get all -n php-app```
-```kubectl get pvc -n php-app```
-```kubectl get cm -n php-app```
-```kubectl get secret -n php-app```
+- ```kubectl get all -n php-app```
+- ```kubectl get pvc -n php-app```
+- ```kubectl get cm -n php-app```
+- ```kubectl get secret -n php-app```
 
 Access the PHP Application:
 
@@ -61,13 +42,15 @@ Uninstall / Cleanup:
 
 ```helm uninstall php-app -n php-app```
 
+---
+
 Helm uninstall does NOT delete PersistentVolumeClaims (PVCs)
 
 Persistent Volumes Cleanup:
 
 ```kubectl delete pvc php-pvc mysql-pvc -n php-app```
 
-
+---
 
 ## Author
 
