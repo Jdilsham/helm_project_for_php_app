@@ -12,17 +12,6 @@ It includes:
 
 ---
 
-## Prerequisites
-- Kubernetes cluster (tested on **Minikube**)
-- `kubectl`
-- `helm`
-
-Check:
-```bash
-kubectl version --client
-helm version
-```
-
 ## Chart Structure
 php-app/
   Chart.yaml
@@ -39,6 +28,15 @@ php-app/
     service-mysql.yaml
     deployment-php.yaml
     deployment-mysql.yaml
+
+---
+
+## Prerequisites
+- Kubernetes cluster (tested on **Minikube**)
+- `kubectl`
+- `helm`
+
+---
 
 ## Quick Start (Minikube)
 
