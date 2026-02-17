@@ -39,3 +39,39 @@ php-app/
     service-mysql.yaml
     deployment-php.yaml
     deployment-mysql.yaml
+
+## Quick Start (Minikube)
+
+Install the chart:
+
+```helm install php-app ./php-app -n php-app --create-namespace```
+
+Verify resources:
+
+```kubectl get all -n php-app```
+```kubectl get pvc -n php-app```
+```kubectl get cm -n php-app```
+```kubectl get secret -n php-app```
+
+Access the PHP Application:
+
+```kubectl port-forward -n php-app svc/php-service 8080:80```
+
+Open in browser: http://localhost:8080
+
+Uninstall / Cleanup:
+
+```helm uninstall php-app -n php-app```
+
+Helm uninstall does NOT delete PersistentVolumeClaims (PVCs)
+
+Persistent Volumes Cleanup:
+
+```kubectl delete pvc php-pvc mysql-pvc -n php-app```
+
+
+
+## Author
+
+Janitha Dilsham
+DevOps / Kubernetes / Helm practice project.
